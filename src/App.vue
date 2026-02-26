@@ -9,8 +9,10 @@ const isExcuseAvailable = ref(false)
 
 // FUNCTIONS
 
-function delay(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms))
+function delay(ms: number): Promise<void> {
+  return new Promise<void>((resolve) => {
+    setTimeout(resolve, ms)
+  })
 }
 
 // CALLBACKS
