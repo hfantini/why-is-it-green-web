@@ -12,9 +12,9 @@ export default [
   {
     languageOptions: {
       globals: {
-        ...globals.browser
-      }
-    }
+        ...globals.browser,
+      },
+    },
   },
 
   ...tseslint.configs.recommended,
@@ -25,16 +25,16 @@ export default [
     files: ['**/*.vue'],
     languageOptions: {
       parserOptions: {
-        parser: tseslint.parser
-      }
-    }
+        parser: tseslint.parser,
+      },
+    },
   },
 
   prettier,
 
   {
     rules: {
-      'vue/multi-word-component-names': 'off'
-    }
-  }
+      'vue/multi-word-component-names': 'off',
+    },
+  },
 ]
