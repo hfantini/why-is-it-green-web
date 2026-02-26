@@ -93,6 +93,7 @@ No tags are created until the application is fully deployable.
 ---
 
 ## 📄 License
+
 TBD
 
 ---
