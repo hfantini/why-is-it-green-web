@@ -1,42 +1,40 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { onMounted, ref } from 'vue'
 
 // STATES
 
-const isAppLoading = ref(true);
-const isExcuseLoading = ref(false);
-const isExcuseAvailable = ref(false);
+const isAppLoading = ref(true)
+const isExcuseLoading = ref(false)
+const isExcuseAvailable = ref(false)
 
 // FUNCTIONS
 
 function delay(ms: number) {
-  return new Promise(resolve => setTimeout(resolve, ms));
+  return new Promise((resolve) => setTimeout(resolve, ms))
 }
 
 // CALLBACKS
 
 async function handleWhyClick() {
-  isExcuseLoading.value = true;
+  isExcuseLoading.value = true
   setTimeout(() => {
-    isExcuseLoading.value = false;
-    isExcuseAvailable.value = true;
-  }, 1000);
+    isExcuseLoading.value = false
+    isExcuseAvailable.value = true
+  }, 1000)
 }
 
 // LIFE CYCLE
 
 onMounted(async () => {
   try {
-    await delay(3000);
+    await delay(3000)
   } finally {
-    isAppLoading.value = false;
+    isAppLoading.value = false
   }
-});
-
+})
 </script>
 
 <template>
-
   <!-- Emoji -->
   <div v-if="isAppLoading" class="emoji hourglass">⏳</div>
   <div v-else class="emoji">😎</div>
@@ -55,7 +53,6 @@ onMounted(async () => {
   </div>
   <div class="divider"></div>
   <div class="footer">v0.1.0 • production • build #42 • 7f3c9ab</div>
-
 </template>
 
 <style scoped>
@@ -66,7 +63,7 @@ onMounted(async () => {
 .title {
   font-size: 2rem;
   font-weight: 500;
-  color: #CBD5E1;
+  color: #cbd5e1;
 }
 
 .why {
@@ -74,7 +71,7 @@ onMounted(async () => {
   font-size: 1.2rem;
   max-width: 45ch;
 
-  color: #94A3B8;
+  color: #94a3b8;
 }
 
 .loader-container {
@@ -123,7 +120,6 @@ button:disabled {
 }
 
 @keyframes anim-hourglass {
-
   /* Initial upright position */
   0% {
     transform: translateY(0) rotate(0deg);
@@ -189,8 +185,8 @@ button:disabled {
   width: 18px;
   height: 18px;
 
-  border: 2px solid #334155;      /* base ring */
-  border-top: 2px solid #22c55e;  /* highlight (green accent) */
+  border: 2px solid #334155; /* base ring */
+  border-top: 2px solid #22c55e; /* highlight (green accent) */
   border-radius: 50%;
 
   animation: spin 0.8s linear infinite;
@@ -201,5 +197,4 @@ button:disabled {
     transform: rotate(360deg);
   }
 }
-
 </style>
