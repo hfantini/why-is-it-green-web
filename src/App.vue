@@ -1,6 +1,15 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 
+const ENVIRONMENT = import.meta.env.MODE || '?'
+const VERSION = __APP_VERSION__ || '?'
+const BUILD = __BUILD_NUMBER__ || '?'
+const GITSHA = __GIT_SHA__ || '?'
+
+console.log(import.meta.env.MODE)
+console.log(import.meta.env.PROD)
+console.log(import.meta.env.DEV)
+
 // STATES
 
 const isAppLoading = ref(true)
@@ -54,7 +63,11 @@ onMounted(async () => {
     </div>
   </div>
   <div class="divider"></div>
-  <div class="footer">v0.1.0 • production • build #42 • 7f3c9ab</div>
+  <div class="footer">
+    <span title="Version">🏷️ v{{ VERSION }}</span> •
+    <span title="Environment">🚀 {{ ENVIRONMENT }}</span> •
+    <span title="Build Number">🛠️ #{{ BUILD }}</span> • <span title="Git SHA">🌿 {{ GITSHA }}</span>
+  </div>
 </template>
 
 <style scoped>

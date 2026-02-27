@@ -14,7 +14,14 @@ RUN pnpm install --frozen-lockfile
 
 COPY . .
 
-RUN pnpm run build
+ARG BUILD_NUMBER=1
+ARG GIT_SHA=?
+ARG ENVIRONMENT=production
+
+ENV BUILD_NUMBER=$BUILD_NUMBER
+ENV GIT_SHA=$GIT_SHA
+
+RUN pnpm run build:${ENVIRONMENT}
 
 # -----------------------------
 # Stage 2 — Runtime
