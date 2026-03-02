@@ -12,7 +12,7 @@ jobs:
         run: |
           git fetch origin main
           if ! git branch --remote --contains $GITHUB_SHA | grep origin/main; then
-            echo "Tag is not on main branch. Failing."
+            echo "Tag is not on main branch - Failing."
             exit 1
           fi
 
@@ -21,13 +21,25 @@ jobs:
           TAG=${GITHUB_REF#refs/tags/}
           echo "TAG=$TAG" >> $GITHUB_ENV
 
+      - name: Validate tag version matches package.json
+        run: |
+          VERSION_FROM_PACKAGE=$(node -p "require('./package.json').version")
+
+          echo "Version from tag: $VERSION_FROM_TAG"
+          echo "Version from package.json: $VERSION_FROM_PACKAGE"
+
+          if [ "$VERSION_FROM_TAG" != "$VERSION_FROM_PACKAGE" ]; then
+            echo "Version mismatch - Failing pipeline."
+            exit 1
+          fi
+
       - name: Check if tag already exists on Docker Hub
         run: |
           STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
             https://hub.docker.com/v2/repositories/${{ secrets.DOCKERHUB_USERNAME }}/why-is-it-green-web/tags/${TAG})
 
           if [ "$STATUS" -eq 200 ]; then
-            echo "Tag ${TAG} already exists on Docker Hub. Failing."
+            echo "Tag ${TAG} already exists on Docker Hub - Failing."
             exit 1
           fi
 
