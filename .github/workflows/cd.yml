@@ -20,11 +20,14 @@ jobs:
         with:
           node-version: 22
 
-      - name: Ensure tag commit is on main
+      - name: Ensure tag commit is on allowed branch
         run: |
-          git fetch origin main
-          if ! git branch --remote --contains $GITHUB_SHA | grep origin/main; then
-            echo "Tag is not on main branch - Failing."
+          git fetch --all
+
+          if git branch -r --contains $GITHUB_SHA | grep -E 'origin/(main|release/)' ; then
+            echo "Tag commit is on an allowed branch."
+          else
+            echo "Tag commit is NOT on main or release/* - Failing."
             exit 1
           fi
 
