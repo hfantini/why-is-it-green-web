@@ -44,11 +44,12 @@ jobs:
 
       - name: Update Render service image
         run: |
-          IMAGE="${{ secrets.DOCKERHUB_USERNAME }}/why-is-it-green-web:${VERSION}"
+          IMAGE="docker.io/${{ secrets.DOCKERHUB_USERNAME }}/why-is-it-green-web:${VERSION}"
 
           echo "Updating Render service to image: $IMAGE"
 
-          curl -X PATCH \
+          RESPONSE=$(curl -s -w "%{http_code}" -o response.json \
+            -X PATCH \
             https://api.render.com/v1/services/${{ secrets.RENDER_SERVICE_ID }} \
             -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
             -H "Content-Type: application/json" \
@@ -56,4 +57,12 @@ jobs:
               \"image\": {
                 \"dockerImage\": \"$IMAGE\"
               }
-            }"
+            }")
+
+          echo "HTTP Status: $RESPONSE"
+          cat response.json
+
+          if [ "$RESPONSE" -ne 200 ]; then
+            echo "Render API call failed"
+            exit 1
+          fi
