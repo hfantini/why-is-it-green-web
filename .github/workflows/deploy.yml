@@ -1,0 +1,59 @@
+name: Deploy
+
+on:
+  workflow_run:
+    workflows: ['Build']
+    types:
+      - completed
+
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to deploy (ex: v1.2.3)'
+        required: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      github.event.workflow_run.conclusion == 'success'
+
+    steps:
+      - name: Determine version
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            VERSION="${{ github.event.inputs.version }}"
+          else
+            VERSION="${{ github.event.workflow_run.head_branch }}"
+          fi
+
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "Deploying version: $VERSION"
+
+      - name: Validate image exists on Docker Hub
+        run: |
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+            https://hub.docker.com/v2/repositories/${{ secrets.DOCKERHUB_USERNAME }}/why-is-it-green-web/tags/${VERSION})
+
+          if [ "$STATUS" -ne 200 ]; then
+            echo "Image ${VERSION} does not exist on Docker Hub - Failing."
+            exit 1
+          fi
+
+      - name: Update Render service image
+        run: |
+          IMAGE="${{ secrets.DOCKERHUB_USERNAME }}/why-is-it-green-web:${VERSION}"
+
+          echo "Updating Render service to image: $IMAGE"
+
+          curl -X PATCH \
+            https://api.render.com/v1/services/${{ secrets.RENDER_SERVICE_ID }} \
+            -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
+            -H "Content-Type: application/json" \
+            -d "{
+              \"image\": {
+                \"dockerImage\": \"$IMAGE\"
+              }
+            }"
