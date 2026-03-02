@@ -59,7 +59,7 @@ onMounted(async () => {
       <div class="loader"></div>
     </div>
     <div v-else-if="isExcuseAvailable" class="why">
-      "The CI passed on the first try. Nobody knows why."
+      "The CI passed on the first try. Nobody knows why." #NowFromRender
     </div>
   </div>
   <div class="divider"></div>
