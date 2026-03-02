@@ -54,9 +54,7 @@ jobs:
             -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
             -H "Content-Type: application/json" \
             -d "{
-              \"image\": {
-                \"dockerImage\": \"$IMAGE\"
-              }
+              \"image\": \"$IMAGE\"
             }")
 
           echo "HTTP Status: $RESPONSE"
