@@ -75,6 +75,12 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - name: Generate short SHA
+        run: |
+          SHORT_SHA=$(git rev-parse --short HEAD)
+          echo "SHORT_SHA=$SHORT_SHA" >> $GITHUB_ENV
+          echo "Short SHA: $SHORT_SHA"
+
       - name: Build and push image
         uses: docker/build-push-action@v5
         with:
@@ -82,5 +88,5 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/why-is-it-green-web:${{ env.TAG }}
           build-args: |
-            GIT_SHA=${{ github.sha }}
+            GIT_SHA=${{ env.SHORT_SHA }}
             BUILD_NUMBER=${{ github.run_number }}
