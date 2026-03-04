@@ -5,9 +5,10 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
-        ENVIRONMENT: development
         BUILD_NUMBER: 1
         GIT_SHA: 7f3c9ab
+    environment:
+      ENVIRONMENT: development
     ports:
       - '8080:80'
     restart: unless-stopped

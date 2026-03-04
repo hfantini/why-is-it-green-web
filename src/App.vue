@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 
-const ENVIRONMENT = import.meta.env.MODE || '?'
+const ENVIRONMENT = window.__RUNTIME_CONFIG__.environment || '?'
 const VERSION = __APP_VERSION__ || '?'
 const BUILD = __BUILD_NUMBER__ || '?'
 const GITSHA = __GIT_SHA__ || '?'
