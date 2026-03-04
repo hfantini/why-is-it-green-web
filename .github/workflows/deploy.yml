@@ -76,7 +76,7 @@ jobs:
     if: always() && (
       needs.resolve.outputs.target == 'production' ||
       needs.resolve.outputs.target == 'staging'
-    )
+      )
 
     environment: production
 
