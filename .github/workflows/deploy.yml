@@ -75,6 +75,9 @@ jobs:
     needs: [resolve, deploy-staging]
     if: needs.resolve.outputs.target == 'staging'
 
+    permissions:
+      issues: write
+
     steps:
       - name: Manual approval before production
         uses: trstringer/manual-approval@v1
