@@ -1,28 +1,17 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
+import { delay } from './utils/delay'
 
-const ENVIRONMENT = window.__RUNTIME_CONFIG__.environment || '?'
+const ENVIRONMENT = window.__RUNTIME_CONFIG__?.environment || '?'
 const VERSION = __APP_VERSION__ || '?'
 const BUILD = __BUILD_NUMBER__ || '?'
 const GITSHA = __GIT_SHA__ || '?'
-
-console.log(import.meta.env.MODE)
-console.log(import.meta.env.PROD)
-console.log(import.meta.env.DEV)
 
 // STATES
 
 const isAppLoading = ref(true)
 const isExcuseLoading = ref(false)
 const isExcuseAvailable = ref(false)
-
-// FUNCTIONS
-
-function delay(ms: number): Promise<void> {
-  return new Promise<void>((resolve) => {
-    setTimeout(resolve, ms)
-  })
-}
 
 // CALLBACKS
 
@@ -66,7 +55,8 @@ onMounted(async () => {
   <div class="footer">
     <span title="Version">🏷️ v{{ VERSION }}</span> •
     <span title="Environment">🚀 {{ ENVIRONMENT }}</span> •
-    <span title="Build Number">🛠️ #{{ BUILD }}</span> • <span title="Git SHA">🌿 {{ GITSHA }}</span>
+    <span title="Build Number">🛠️ #{{ BUILD }}</span> •
+    <span title="Git SHA">🌿 {{ GITSHA }}</span>
   </div>
 </template>
 

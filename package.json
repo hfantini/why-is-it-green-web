@@ -1,7 +1,7 @@
 {
   "name": "why-is-it-green",
   "private": true,
-  "version": "0.0.14",
+  "version": "0.1.0",
   "type": "module",
   "scripts": {
     "start": "vite",
@@ -12,27 +12,36 @@
     "build:staging": "vue-tsc -b && vite build --mode staging",
     "build:prod": "vue-tsc -b && vite build --mode production",
     "preview": "vite preview",
-    "format": "pnpx prettier --write .",
-    "format:check": "pnpx prettier --check .",
-    "lint": "pnpx eslint .",
-    "lint:fix": "pnpx eslint . --fix"
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "test": "vitest run",
+    "test:watch": "vitest run:watch",
+    "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
     "vue": "^3.5.25"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/vue": "^8.1.0",
     "@types/node": "^24.10.1",
     "@vitejs/plugin-vue": "^6.0.2",
+    "@vitest/coverage-v8": "^4.0.18",
+    "@vue/test-utils": "^2.4.6",
     "@vue/tsconfig": "^0.8.1",
     "eslint": "^10.0.2",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-vue": "^10.8.0",
     "globals": "^17.3.0",
+    "jsdom": "^28.1.0",
     "prettier": "^3.8.1",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.56.1",
     "vite": "^7.3.1",
+    "vitest": "^4.0.18",
     "vue-tsc": "^3.1.5"
   }
 }
